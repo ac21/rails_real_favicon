@@ -62,8 +62,10 @@ class FaviconGenerator < Rails::Generators::Base
     create_file "app/views/application/_favicon.html.erb",
       replace_url_by_asset_path(resp['favicon_generation_result']['favicon']['html_code'])
 
+    if Gem::Version.new(Sprockets::VERSION) < Gem::Version.new('4.2.1') # fixed in Sprockets > v4.2.1
       create_file "config/initializers/web_app_manifest.rb",
         File.read(File.dirname(__FILE__) + '/web_app_manifest_initializer.txt')
+    end
   end
 
   private
